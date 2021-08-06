@@ -20,21 +20,27 @@ class DashBoard extends React.Component {
     let url = `/api?userName=${topicName}`;
     let res = await fetch(url);
     res = await res.json();
+    //console.log("res",res)
     let { message } = res;
 
     let _size = message.length;
     let newArray = [];
     var data = [];
-    //console.log(message.length)
-    for (let i = 1; i <= _size; i++) {
-      console.log(i % 3);
-      if (i % 3 === 0) {
-        data.push(message[i - 1]);
+    let volt = 0
+    for (let i = 0; i < _size/2; i++) {
+      volt = message[i*2];
+      volt = volt + (message[i*2+1] << 8);
+      volt = volt /1000.0;
+      if ((i+1)%3 === 0) 
+      {
+        data.push(volt)
         newArray.push(data);
         data = [];
-      } else {
-        data.push(message[i - 1]);
       }
+      else{
+        data.push(volt)
+      } 
+      
     }
     this.setState({
       batteryData: newArray,
